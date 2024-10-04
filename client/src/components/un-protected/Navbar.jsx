@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { navItems } from "../../../assets/data";
+import { navItems } from "../../assets/data";
 
 const Navbar = () => {
   return (

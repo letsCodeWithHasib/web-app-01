@@ -8,7 +8,21 @@ export const navItems = [
     content: "About us",
   },
   {
-    path: "/login",
-    content: "Login",
+    path: "/tests",
+    content: "Test",
   },
+
+  {
+    path: "/contact",
+    content: "Contact",
+  },
+];
+
+export const latestTest = [
+  { title: "Core Java" },
+  { title: "React" },
+  { title: "MongoDB" },
+  { title: "Angular" },
+  { title: "DS" },
+  { title: "DA" },
 ];
