@@ -27,7 +27,9 @@ const Login = () => {
 
   return (
     <div className="overflow-hidden bg-gradient-to-br rounded-lg from-primary via-purple-600 to-pink-500">
-      <h2 className="font-[Poppins] text-5xl text-center mt-5">Login</h2>
+      <h2 className="font-[Poppins] text-white text-5xl text-center mt-5">
+        Login
+      </h2>
       <form
         onSubmit={handleSubmit}
         className="p-8 rounded-lg shadow-md w-full mx-auto max-w-lg "
