@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
 const { Schema } = mongoose;
 import bcrypt from "bcryptjs";
-
 import CustomError from "../utils/CustomError.js";
 
 // User Schema
@@ -10,15 +9,15 @@ const userSchema = new Schema(
     firstName: {
       type: String,
       required: [true, "First name is required"],
-      minlength: [3, "First name must be at least 2 characters long"],
-      maxlength: [20, "First name must not exceed 50 characters"],
+      minlength: [3, "First name must be at least 3 characters long"],
+      maxlength: [20, "First name must not exceed 20 characters"],
       trim: true,
     },
     lastName: {
       type: String,
       required: [true, "Last name is required"],
-      minlength: [3, "Last name must be at least 2 characters long"],
-      maxlength: [20, "Last name must not exceed 50 characters"],
+      minlength: [3, "Last name must be at least 3 characters long"],
+      maxlength: [20, "Last name must not exceed 20 characters"],
       trim: true,
     },
     email: {
@@ -36,6 +35,7 @@ const userSchema = new Schema(
     password: {
       type: String,
       required: [true, "Password is required"],
+      minlength: [8, "Password must be at least 8 characters long."],
     },
     role: {
       type: String,
@@ -67,16 +67,10 @@ const userSchema = new Schema(
   }
 );
 
+// Password hashing middleware
 userSchema.pre("save", async function (next) {
   // Only hash if the password is new or modified
   if (!this.isModified("password")) return next();
-
-  // Check if the password is at least 8 characters long
-  if (this.password.length < 8) {
-    return next(
-      new CustomError(400, "Password must be at least 8 characters long.")
-    );
-  }
 
   try {
     const salt = await bcrypt.genSalt(10); // Generate a salt
@@ -89,7 +83,11 @@ userSchema.pre("save", async function (next) {
 
 // Method to compare hashed password
 userSchema.methods.comparePassword = async function (candidatePassword) {
-  return await bcrypt.compare(candidatePassword, this.password);
+  try {
+    return await bcrypt.compare(candidatePassword, this.password);
+  } catch (error) {
+    throw new CustomError(500, "Error comparing passwords");
+  }
 };
 
 // Export the model
