@@ -1,8 +1,11 @@
-import { useState, useContext } from "react";
-import { ThemeContext } from "../../context/themeContext";
+import { useState, useCallback } from "react";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { registerUser } from "../../redux/features/authSlice";
 
 const Register = () => {
+  const dispatch = useDispatch();
+
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -10,26 +13,28 @@ const Register = () => {
     password: "",
     confirm: "",
     role: "student",
-    branch: "",
+    branch: "gurugram",
   });
 
-  const { isDark } = useContext(ThemeContext);
-  console.log(isDark);
-
-  const handleChange = (e) => {
+  const handleChange = useCallback((e) => {
     const { name, value, type, checked } = e.target;
-    setFormData({
-      ...formData,
+    setFormData((prevData) => ({
+      ...prevData,
       [name]: type === "checkbox" ? checked : value,
-    });
-  };
+    }));
+  }, []);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Handle form submission logic here
-    console.log(formData);
-  };
-
+  const handleSubmit = useCallback(
+    async (e) => {
+      e.preventDefault();
+      try {
+        await dispatch(registerUser(formData)).unwrap();
+      } catch (error) {
+        console.log(error, "from");
+      }
+    },
+    [dispatch, formData]
+  );
   return (
     <div>
       <div className="overflow-hidden bg-gradient-to-br rounded-lg from-primary via-purple-600 to-pink-500">
@@ -57,7 +62,7 @@ const Register = () => {
                 value={formData.firstName}
                 onChange={handleChange}
                 required
-                className="w-full p-2 text-black rounded-md placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full p-2 text-black rounded-md placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </fieldset>
             {/* last name */}
@@ -76,7 +81,7 @@ const Register = () => {
                 onChange={handleChange}
                 required
                 placeholder="Hasib"
-                className="w-full p-2 text-black placeholder:text-gray-600 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full p-2 text-black placeholder:text-gray-400 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </fieldset>
           </div>
@@ -96,7 +101,7 @@ const Register = () => {
               value={formData.email}
               onChange={handleChange}
               required
-              className="w-full p-2 text-black placeholder:text-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full p-2 text-black placeholder:text-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </fieldset>
           {/* password */}
@@ -116,7 +121,7 @@ const Register = () => {
               value={formData.password}
               onChange={handleChange}
               required
-              className="w-full text-black p-2 placeholder:text-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full text-black p-2 placeholder:text-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </fieldset>
           {/* confirm */}
@@ -135,7 +140,7 @@ const Register = () => {
               onChange={handleChange}
               placeholder="********"
               required
-              className="mt-1 block w-full text-black p-2  placeholder:text-gray-600  rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="mt-1 block w-full text-black p-2  placeholder:text-gray-400  rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </fieldset>
 
@@ -175,13 +180,13 @@ const Register = () => {
                 onChange={handleChange}
                 className="mt-1 block text-black w-full p-2 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
               >
-                <option value="Gurugram">Gurugram</option>
-                <option value="Noida sec-16">Noida sec-16</option>
-                <option value="Noida sec-63">Noida sec-63</option>
-                <option value="Faridabad">Faridabad</option>
-                <option value="Janakpuri">Janakpuri</option>
-                <option value="South Ex">South Ex</option>
-                <option value="Pitampura">Pitampura</option>
+                <option value="gurugram">Gurugram</option>
+                <option value="noida sec-16">Noida sec-16</option>
+                <option value="noida sec-63">Noida sec-63</option>
+                <option value="faridabad">Faridabad</option>
+                <option value="janakpuri">Janakpuri</option>
+                <option value="south Ex">South Ex</option>
+                <option value="pitampura">Pitampura</option>
               </select>
             </fieldset>
           </div>
@@ -195,7 +200,7 @@ const Register = () => {
         </form>
       </div>
       <div className="text-center mt-5">
-        <span className=" text-primary">
+        <span className="text-primary">
           Already have an account?{" "}
           <Link to="/auth/sign-in" className="ml-1 font-bold underline">
             Sign in

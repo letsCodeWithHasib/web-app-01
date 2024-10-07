@@ -7,6 +7,7 @@ import Home from "./pages/Home";
 import Aboutus from "./pages/Aboutus";
 import Login from "./pages/protected/Login";
 import Register from "./pages/protected/Register";
+import ForgottenPassword from "./pages/protected/ForgottenPassword";
 
 // Layouts
 import Unprotected from "./layout/Unprotected";
@@ -69,6 +70,7 @@ const App = () => {
           <Route path="/auth" element={<Auth />}>
             <Route path="sign-in" element={<Login />} />
             <Route path="sign-up" element={<Register />} />
+            <Route path="forgotten-password" element={<ForgottenPassword />} />
           </Route>
         </Routes>
       </div>

@@ -1,80 +1,49 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 const Login = () => {
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
     email: "",
     password: "",
-    confirm: "",
-    role: "student",
-    branch: "",
   });
+  const [error, setError] = useState("");
 
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
+    const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]: type === "checkbox" ? checked : value,
+      [name]: value,
     });
+  };
+
+  const validateEmail = (email) => {
+    // Simple email validation regex
+    const regex = /\S+@\S+\.\S+/;
+    return regex.test(email);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setError(""); // Reset error state
+
+    if (!validateEmail(formData.email)) {
+      setError("Please enter a valid email address.");
+      return;
+    }
+
     // Handle form submission logic here
     console.log(formData);
   };
 
   return (
-    <div className="overflow-hidden bg-gradient-to-br rounded-lg from-primary via-purple-600 to-pink-500">
-      <h2 className="font-[Poppins] text-white text-5xl text-center mt-5">
-        Login
-      </h2>
+    <div className="mt-[100px] overflow-hidden bg-gradient-to-br p-8 rounded-lg from-primary via-purple-600 to-pink-500 w-[400px]">
+      <h2 className="font-[Poppins] text-white text-5xl text-center">Login</h2>
+      {error && <p className="text-red-500 text-center">{error}</p>}
       <form
         onSubmit={handleSubmit}
-        className="p-8 rounded-lg shadow-md w-full mx-auto max-w-lg "
+        className="w-full mx-auto max-w-lg border-b py-5 border-purple-400 rounded-sm"
       >
-        <div className="mb-4 flex gap-5">
-          {/* first name */}
-          <fieldset>
-            <label
-              className="text-sm font-[Roboto] text-white font-medium cursor-pointer"
-              htmlFor="firstName"
-            >
-              First Name
-            </label>
-            <input
-              type="text"
-              id="firstName"
-              name="firstName"
-              placeholder="Mohd"
-              value={formData.firstName}
-              onChange={handleChange}
-              required
-              className="w-full p-2 text-black rounded-md placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </fieldset>
-          {/* last name */}
-          <fieldset>
-            <label
-              className="text-sm font-[Roboto] text-white font-medium"
-              htmlFor="lastName"
-            >
-              Last Name
-            </label>
-            <input
-              type="text"
-              id="lastName"
-              name="lastName"
-              value={formData.lastName}
-              onChange={handleChange}
-              required
-              placeholder="Hasib"
-              className="w-full p-2 text-black placeholder:text-gray-600 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </fieldset>
-        </div>
-        {/* email */}
+        {/* Email */}
         <fieldset className="mb-4">
           <label
             className="text-sm font-[Roboto] text-white font-medium cursor-pointer"
@@ -83,7 +52,7 @@ const Login = () => {
             Email
           </label>
           <input
-            type="text"
+            type="email"
             id="email"
             name="email"
             placeholder="your@gmail.com"
@@ -93,7 +62,7 @@ const Login = () => {
             className="w-full p-2 text-black placeholder:text-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </fieldset>
-        {/* password */}
+        {/* Password */}
         <fieldset className="mb-4">
           <label
             className="text-sm font-[Roboto] text-white font-medium cursor-pointer"
@@ -112,77 +81,28 @@ const Login = () => {
             className="w-full text-black p-2 placeholder:text-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </fieldset>
-        {/* confirm */}
-        <fieldset className="mb-4">
-          <label
-            className="text-sm font-[Roboto] text-white font-medium cursor-pointer"
-            htmlFor="confirm"
-          >
-            Confirm Password
-          </label>
-          <input
-            type="password"
-            id="confirm"
-            name="confirm"
-            value={formData.confirm}
-            onChange={handleChange}
-            placeholder="********"
-            required
-            className="mt-1 block w-full text-black p-2  placeholder:text-gray-600  rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-        </fieldset>
-
-        <fieldset className="mb-4">
-          <label
-            className="text-sm font-[Roboto] text-white font-medium cursor-pointer"
-            htmlFor="role"
-          >
-            Role
-          </label>
-          <select
-            id="role"
-            name="role"
-            value={formData.role}
-            onChange={handleChange}
-            className="mt-1 block text-black w-full p-2 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
-          >
-            <option value="student">Student</option>
-            <option value="admin">Admin</option>
-            <option value="company">Company</option>
-          </select>
-        </fieldset>
-        {/* centres */}
-        <fieldset className="mb-4">
-          <label
-            className="text-sm font-[Roboto] text-white font-medium cursor-pointer"
-            htmlFor="role"
-          >
-            Select Branch
-          </label>
-          <select
-            id="branch"
-            name="branch"
-            value={formData.branch}
-            onChange={handleChange}
-            className="mt-1 block text-black w-full p-2 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
-          >
-            <option value="Noida sec-16">Noida sec-16</option>
-            <option value="Noida sec-63">Noida sec-63</option>
-            <option value="Faridabad">Faridabad</option>
-            <option value="Gurugram">Gurugram</option>
-            <option value="Janakpuri">Janakpuri</option>
-            <option value="South Ex">South Ex</option>
-            <option value="Pitampura">Pitampura</option>
-          </select>
-        </fieldset>
 
         <button
           type="submit"
           className="w-full bg-blue-600 text-white font-semibold py-2 rounded-md hover:bg-blue-700 transition duration-200"
         >
-          Register
+          Sign in
         </button>
       </form>
+      <div className="py-5 flex gap-2 flex-col text-center items-center">
+        <Link
+          to="/auth/forgotten-password"
+          className="font-semibold text-white hover:border-b border-white "
+        >
+          Forgotten password?
+        </Link>
+        <Link
+          to="/auth/sign-up"
+          className="font-semibold text-white  hover:border-b border-white"
+        >
+          Didn't have an account? <span>Sign up</span>
+        </Link>
+      </div>
     </div>
   );
 };

@@ -1,15 +1,18 @@
+// src/authSlice.js
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
-
-const API_BASE_PATH = "/api/auth";
+import api, { setAuthHeader } from "../../api/api"; // Import the Axios instance
 
 // Register User Thunk
 export const registerUser = createAsyncThunk(
   "auth/registerUser",
   async (userData, { rejectWithValue }) => {
     try {
-      const response = await axios.post(`${API_BASE_PATH}/register`, userData);
-      return response.data;
+      const response = await api.post("/auth/register", userData);
+      const { user, accessToken, refreshToken } = response.data;
+      setAuthHeader(accessToken); // Set auth header
+      localStorage.setItem("accessToken", accessToken); // Store the access token
+      localStorage.setItem("refreshToken", refreshToken); // Store the refresh token
+      return { user, accessToken, refreshToken };
     } catch (error) {
       return rejectWithValue(error.response.data);
     }
@@ -21,8 +24,12 @@ export const loginUser = createAsyncThunk(
   "auth/loginUser",
   async (credentials, { rejectWithValue }) => {
     try {
-      const response = await axios.post(`${API_BASE_PATH}/login`, credentials);
-      return response.data;
+      const response = await api.post("/auth/login", credentials);
+      const { user, accessToken, refreshToken } = response.data;
+      setAuthHeader(accessToken); // Set auth header
+      localStorage.setItem("accessToken", accessToken); // Store the access token
+      localStorage.setItem("refreshToken", refreshToken); // Store the refresh token
+      return { user, accessToken, refreshToken };
     } catch (error) {
       return rejectWithValue(error.response.data);
     }
@@ -34,7 +41,9 @@ export const logoutUser = createAsyncThunk(
   "auth/logoutUser",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.post(`${API_BASE_PATH}/logout`);
+      const response = await api.post("/auth/logout");
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("refreshToken");
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -42,7 +51,26 @@ export const logoutUser = createAsyncThunk(
   }
 );
 
-// Initial state with refreshToken and accessToken
+// Refresh Access Token Thunk
+export const refreshAccessToken = createAsyncThunk(
+  "auth/refreshAccessToken",
+  async (_, { getState, rejectWithValue }) => {
+    const { refreshToken } = getState().auth;
+    if (!refreshToken) return rejectWithValue("No refresh token available");
+
+    try {
+      const response = await api.post("/auth/refresh-token", { refreshToken });
+      const { accessToken } = response.data;
+      setAuthHeader(accessToken); // Update the authorization header
+      localStorage.setItem("accessToken", accessToken); // Store the new access token
+      return accessToken;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+// Initial state
 const initialState = {
   user: null,
   refreshToken: null,
@@ -58,6 +86,11 @@ const authSlice = createSlice({
   reducers: {
     resetError: (state) => {
       state.error = null;
+    },
+    clearAuth: (state) => {
+      state.user = null;
+      state.refreshToken = null;
+      state.accessToken = null;
     },
   },
   extraReducers: (builder) => {
@@ -105,9 +138,21 @@ const authSlice = createSlice({
       .addCase(logoutUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+      })
+      // Refresh access token
+      .addCase(refreshAccessToken.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(refreshAccessToken.fulfilled, (state, action) => {
+        state.loading = false;
+        state.accessToken = action.payload; // Update access token
+      })
+      .addCase(refreshAccessToken.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload; // Handle error if token refresh fails
       });
   },
 });
 
-export const { resetError } = authSlice.actions;
+export const { resetError, clearAuth } = authSlice.actions;
 export default authSlice.reducer;
