@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import CustomError from "../error/CustomError";
+import CustomError from "../utils/CustomError.js";
 
 const verifyToken = (req, res, next) => {
   const authHeader = req.headers["authorization"];

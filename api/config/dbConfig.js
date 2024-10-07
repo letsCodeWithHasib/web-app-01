@@ -6,7 +6,7 @@ const connectDB = async () => {
   }
 
   try {
-    await connect(process.env.MONGO_URI);
+    await connect(`${process.env.MONGO_URI}/ducat`);
     console.log("DB connected successfully");
   } catch (error) {
     console.error("DB connection error:", error.message);

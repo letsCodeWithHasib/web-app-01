@@ -1,11 +1,11 @@
 import { Router } from "express";
 import {
   registerUser,
-  loginUser,
-  logoutUser,
-  getUserProfile,
+  // loginUser,
+  // logoutUser,
+  // getUserProfile,
 } from "../controller/userController.js";
-import { verifyToken } from "../middleware/verifyToken.js"; // Assuming you have this middleware
+import verifyToken from "../middleware/auth.js"; // Assuming you have this middleware
 
 const router = Router();
 
@@ -13,12 +13,12 @@ const router = Router();
 router.post("/register", registerUser);
 
 // Login route
-router.post("/login", loginUser);
+// router.post("/login", loginUser);
 
-// Logout route
-router.post("/logout", verifyToken, logoutUser);
+// // Logout route
+// router.post("/logout", verifyToken, logoutUser);
 
-// User profile route
-router.get("/profile", verifyToken, getUserProfile);
+// // User profile route
+// router.get("/profile", verifyToken, getUserProfile);
 
 export default router;
