@@ -1,7 +1,7 @@
 // src/api.js
 import axios from "axios";
 
-const API_BASE_PATH = "/";
+const API_BASE_PATH = "/api";
 
 // Create an axios instance
 const api = axios.create({

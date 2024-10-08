@@ -11,7 +11,7 @@ const Auth = () => {
   useEffect(() => {
     if (role === "student") {
       navigate("/student");
-    } else if (role === "admin") {
+    } else if (role === "centerAdmin") {
       navigate("/admin");
     } else if (role === "company") {
       navigate("/company");

@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { ThemeContext } from "../../context/themeContext";
 import { useContext } from "react";
 
@@ -26,13 +27,15 @@ const Hero = () => {
           >
             Take a test
           </button>
-          <button
-            className={`font-[Roboto] font-bold text-lg rounded-full py-2 px-5 border-[1px] ${
-              isDark ? "border-white" : "border-black"
-            }`}
-          >
-            Create a test
-          </button>
+          <Link to="/admin/test">
+            <button
+              className={`font-[Roboto] font-bold text-lg rounded-full py-2 px-5 border-[1px] ${
+                isDark ? "border-white" : "border-black"
+              }`}
+            >
+              Create a test
+            </button>
+          </Link>
         </div>
       </div>
     </div>

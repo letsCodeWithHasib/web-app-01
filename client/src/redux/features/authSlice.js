@@ -8,12 +8,11 @@ export const registerUser = createAsyncThunk(
   async (userData, { rejectWithValue }) => {
     try {
       const response = await api.post("/auth/register", userData);
-      const { user, accessToken, refreshToken } = response.data;
-      setAuthHeader(accessToken); // Set auth header
-      localStorage.setItem("accessToken", accessToken); // Store the access token
-      localStorage.setItem("refreshToken", refreshToken); // Store the refresh token
-      return { user, accessToken, refreshToken };
+      const { user } = response.data;
+      console.log("chala", response.data);
+      return { user, authStatus: "registered" };
     } catch (error) {
+      console.log("error", error);
       return rejectWithValue(error.response.data);
     }
   }
@@ -29,7 +28,6 @@ export const loginUser = createAsyncThunk(
       setAuthHeader(accessToken); // Set auth header
       localStorage.setItem("accessToken", accessToken); // Store the access token
       localStorage.setItem("refreshToken", refreshToken); // Store the refresh token
-      console.log(response.data);
       return { user, accessToken, refreshToken };
     } catch (error) {
       console.log(error);
@@ -43,10 +41,9 @@ export const logoutUser = createAsyncThunk(
   "auth/logoutUser",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await api.post("/auth/logout");
       localStorage.removeItem("accessToken");
       localStorage.removeItem("refreshToken");
-      return response.data;
+      return { user: null, accessToken: null, refreshToken: null };
     } catch (error) {
       return rejectWithValue(error.response.data);
     }
@@ -75,6 +72,7 @@ export const refreshAccessToken = createAsyncThunk(
 // Initial state
 const initialState = {
   user: null,
+  authStatus: null,
   refreshToken: null,
   accessToken: null,
   loading: false,

@@ -1,6 +1,8 @@
 import { useContext, useEffect, useState, useCallback } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { ThemeContext } from "../../context/themeContext";
+import { FiLogOut } from "react-icons/fi";
+import { logoutUser } from "../../redux/features/authSlice";
 
 import Navbar from "./Navbar";
 import { Link } from "react-router-dom";
@@ -11,6 +13,7 @@ const Header = () => {
   const [lastScrollY, setLastScrollY] = useState(0); // Track last scroll position
   const { user } = useSelector((state) => state.auth);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const dispatch = useDispatch();
 
   // user login logic
   useEffect(() => {
@@ -39,6 +42,11 @@ const Header = () => {
     };
   }, [lastScrollY]); // Add lastScrollY to the dependency array
 
+  const logout = useCallback(() => {
+    setIsLoggedIn(false);
+    dispatch(logoutUser());
+  });
+
   return (
     <div
       className={`flex justify-between h-28 items-center transition-transform duration-300 ${
@@ -58,13 +66,21 @@ const Header = () => {
         {/* Link to login page */}
         {isLoggedIn ? (
           // user profile image
-          <p
-            className={`text-[17px] uppercase py-2 px-5 font-[Roboto] font-bold rounded-lg hover:rounded-full ${
-              isDark ? " text-white" : "text-primary"
-            } text-sans`}
-          >
-            {user.firstName} {user.lastName}
-          </p>
+          <div className="flex gap-2 items-center">
+            <p
+              className={`text-[17px] uppercase py-2 px-5 font-[Roboto] font-bold rounded-lg hover:rounded-full ${
+                isDark ? " text-white" : "text-primary"
+              } text-sans`}
+            >
+              {user.firstName} {user.lastName}
+            </p>
+            <button
+              onClick={logout}
+              className="flex items-center gap-2 font-bold fon-[Roboto] uppercase"
+            >
+              Logout <FiLogOut />
+            </button>
+          </div>
         ) : (
           <Link
             className={`text-[17px] py-2 px-5 font-[Roboto] font-bold rounded-lg hover:rounded-full ${
@@ -75,7 +91,7 @@ const Header = () => {
             Sign in
           </Link>
         )}
-        {/* button for theme */}
+        {/* button for logout */}
       </div>
     </div>
   );

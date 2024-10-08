@@ -9,13 +9,19 @@ import { Login, Register, ForgottenPassword } from "./pages/protected";
 //students route's pages
 import { Student } from "./pages/student";
 //Admin route's pages
-import { Admin } from "./pages/admin";
+import { Admin, TestCreation } from "./pages/admin";
 //import company route's pages
 import { Company } from "./pages/company";
 
+// testing
+import CenterAdminDashboard from "./components/admin/AdminDashboard";
+
 // Layouts
-import Unprotected from "./layout/Unprotected";
-import Auth from "./layout/Auth";
+import {
+  Admin as AdminRoute,
+  Auth as AuthRoute,
+  Unprotected as UnprotectedRoute,
+} from "./layout";
 
 const App = () => {
   const { isDark } = useContext(ThemeContext);
@@ -67,20 +73,25 @@ const App = () => {
         {/* Routing starts here */}
         <Routes>
           {/* un-protected route */}
-          <Route path="/" element={<Unprotected />}>
+          <Route path="/" element={<UnprotectedRoute />}>
             <Route index element={<Home />} />
             <Route path="about-us" element={<Aboutus />} />
           </Route>
 
           {/* protected route */}
-          <Route path="/auth" element={<Auth />}>
+          <Route path="/auth" element={<AuthRoute />}>
             <Route index element={<Login />} />
             <Route path="sign-up" element={<Register />} />
             <Route path="forgotten-password" element={<ForgottenPassword />} />
           </Route>
 
+          {/* center based admin route */}
+          <Route path="/admin" element={<AdminRoute />}>
+            <Route path="test" element={<TestCreation />} />
+            <Route path="testing" element={<CenterAdminDashboard />} />
+          </Route>
+
           <Route path="/student" element={<Student />} />
-          <Route path="/admin" element={<Admin />} />
           <Route path="/company" element={<Company />} />
           <Route path="*" element={<h1>Not Found</h1>} />
         </Routes>
