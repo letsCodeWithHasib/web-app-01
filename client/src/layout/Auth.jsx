@@ -12,7 +12,7 @@ const Auth = () => {
     if (role === "student") {
       navigate("/student");
     } else if (role === "centerAdmin") {
-      navigate("/admin");
+      navigate("/center-admin");
     } else if (role === "company") {
       navigate("/company");
     }

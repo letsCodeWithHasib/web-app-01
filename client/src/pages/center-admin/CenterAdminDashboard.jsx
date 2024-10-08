@@ -1,8 +1,9 @@
-import React, { useState } from "react";
-import Overview from "./Overview";
-import UserManagement from "./UserManagement";
-import TestManagement from "./TestManagment";
-import Reporting from "./Reporting";
+import React, { useState, useEffect } from "react";
+import Overview from "../../components/center-admin/Overview";
+import UserManagement from "../../components/center-admin/UserManagement";
+import TestManagement from "../../components/center-admin/TestManagment";
+import Reporting from "../../components/center-admin/Reporting";
+import api from "../../api/api";
 
 const CenterAdminDashboard = () => {
   const [users, setUsers] = useState([
@@ -25,23 +26,16 @@ const CenterAdminDashboard = () => {
     },
   ]);
 
-  const stats = [
-    {
-      title: "Active Students",
-      value: users.filter((u) => u.active).length,
-      description: "Total active students in your center",
-    },
-    {
-      title: "Active Tests",
-      value: tests.length,
-      description: "Total tests created",
-    },
-    {
-      title: "Instructors",
-      value: "10",
-      description: "Total instructors assigned",
-    },
-  ];
+  useEffect(() => {
+    (async () => {
+      try {
+        const response = await api.get("/centre-admin/dashboard");
+        console.log(response);
+      } catch (error) {
+        console.log("er", error);
+      }
+    })();
+  }, []);
 
   const handleActivate = (id) => {
     setUsers(
@@ -74,7 +68,7 @@ const CenterAdminDashboard = () => {
 
   return (
     <div className="p-4">
-      <Overview stats={stats} />
+      <Overview />
       <UserManagement
         users={users}
         onActivate={handleActivate}

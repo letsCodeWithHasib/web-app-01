@@ -1,5 +1,5 @@
-import Admin from "./Admin";
+import CenterAdmin from "./CenterAdmin";
 import Auth from "./Auth";
 import Unprotected from "./Unprotected";
 
-export { Admin, Auth, Unprotected };
+export { CenterAdmin, Auth, Unprotected };

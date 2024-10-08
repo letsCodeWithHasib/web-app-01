@@ -8,17 +8,15 @@ import { Aboutus, Home } from "./pages/un-protected";
 import { Login, Register, ForgottenPassword } from "./pages/protected";
 //students route's pages
 import { Student } from "./pages/student";
-//Admin route's pages
-import { Admin, TestCreation } from "./pages/admin";
 //import company route's pages
 import { Company } from "./pages/company";
 
 // testing
-import CenterAdminDashboard from "./components/admin/AdminDashboard";
+import CenterAdminDashboard from "./pages/center-admin/CenterAdminDashboard";
 
 // Layouts
 import {
-  Admin as AdminRoute,
+  CenterAdmin as CenterAdminRoute,
   Auth as AuthRoute,
   Unprotected as UnprotectedRoute,
 } from "./layout";
@@ -86,9 +84,8 @@ const App = () => {
           </Route>
 
           {/* center based admin route */}
-          <Route path="/admin" element={<AdminRoute />}>
-            <Route path="test" element={<TestCreation />} />
-            <Route path="testing" element={<CenterAdminDashboard />} />
+          <Route path="/center-admin" element={<CenterAdminRoute />}>
+            <Route index element={<CenterAdminDashboard />} />
           </Route>
 
           <Route path="/student" element={<Student />} />
