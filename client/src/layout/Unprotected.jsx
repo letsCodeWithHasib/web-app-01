@@ -1,7 +1,7 @@
 import Header from "../components/un-protected/Header";
 import { Outlet } from "react-router-dom";
 
-const layout = () => {
+const Unprotected = () => {
   return (
     <div>
       <Header />
@@ -10,4 +10,4 @@ const layout = () => {
   );
 };
 
-export default layout;
+export default Unprotected;

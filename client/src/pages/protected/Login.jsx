@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { loginUser } from "../../redux/features/authSlice";
+import { useDispatch } from "react-redux";
 
 const Login = () => {
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -22,7 +25,7 @@ const Login = () => {
     return regex.test(email);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError(""); // Reset error state
 
@@ -32,7 +35,12 @@ const Login = () => {
     }
 
     // Handle form submission logic here
-    console.log(formData);
+    try {
+      const user = await dispatch(loginUser(formData));
+      console.log("user", user);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (

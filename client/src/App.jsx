@@ -2,12 +2,16 @@ import { useContext, useRef, useEffect, useState } from "react";
 import { ThemeContext } from "./context/themeContext";
 import { Routes, Route } from "react-router-dom";
 
-// Pages
-import Home from "./pages/Home";
-import Aboutus from "./pages/Aboutus";
-import Login from "./pages/protected/Login";
-import Register from "./pages/protected/Register";
-import ForgottenPassword from "./pages/protected/ForgottenPassword";
+//Un-protected route's pages
+import { Aboutus, Home } from "./pages/un-protected";
+//protected route's pages
+import { Login, Register, ForgottenPassword } from "./pages/protected";
+//students route's pages
+import { Student } from "./pages/student";
+//Admin route's pages
+import { Admin } from "./pages/admin";
+//import company route's pages
+import { Company } from "./pages/company";
 
 // Layouts
 import Unprotected from "./layout/Unprotected";
@@ -60,18 +64,25 @@ const App = () => {
         ></div>
         {/* Scrollbar ends */}
 
-        {/* Main content goes here */}
+        {/* Routing starts here */}
         <Routes>
+          {/* un-protected route */}
           <Route path="/" element={<Unprotected />}>
             <Route index element={<Home />} />
             <Route path="about-us" element={<Aboutus />} />
           </Route>
 
+          {/* protected route */}
           <Route path="/auth" element={<Auth />}>
-            <Route path="sign-in" element={<Login />} />
+            <Route index element={<Login />} />
             <Route path="sign-up" element={<Register />} />
             <Route path="forgotten-password" element={<ForgottenPassword />} />
           </Route>
+
+          <Route path="/student" element={<Student />} />
+          <Route path="/admin" element={<Admin />} />
+          <Route path="/company" element={<Company />} />
+          <Route path="*" element={<h1>Not Found</h1>} />
         </Routes>
       </div>
     </div>

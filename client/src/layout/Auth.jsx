@@ -9,8 +9,12 @@ const Auth = () => {
   const navigate = useNavigate();
   const role = getUserRoleFromToken(accessToken);
   useEffect(() => {
-    if (accessToken) {
-      navigate("/user");
+    if (role === "student") {
+      navigate("/student");
+    } else if (role === "admin") {
+      navigate("/admin");
+    } else if (role === "company") {
+      navigate("/company");
     }
   }, [accessToken]);
 

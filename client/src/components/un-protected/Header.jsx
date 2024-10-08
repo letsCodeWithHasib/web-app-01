@@ -50,7 +50,7 @@ const Header = () => {
           className={`text-[17px] py-2 px-5 font-[Roboto] font-bold rounded-lg hover:rounded-full ${
             isDark ? "bg-white text-primary" : "text-white bg-primary"
           } text-sans`}
-          to="/auth/sign-in"
+          to="/auth"
         >
           Sign in
         </Link>

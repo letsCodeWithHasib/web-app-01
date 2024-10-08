@@ -29,8 +29,10 @@ export const loginUser = createAsyncThunk(
       setAuthHeader(accessToken); // Set auth header
       localStorage.setItem("accessToken", accessToken); // Store the access token
       localStorage.setItem("refreshToken", refreshToken); // Store the refresh token
+      console.log(response.data);
       return { user, accessToken, refreshToken };
     } catch (error) {
+      console.log(error);
       return rejectWithValue(error.response.data);
     }
   }
