@@ -1,7 +1,7 @@
 import { Router } from "express";
 import {
   registerUser,
-  // loginUser,
+  loginUser,
   // logoutUser,
   // getUserProfile,
 } from "../controller/userController.js";
@@ -13,7 +13,7 @@ const router = Router();
 router.post("/register", registerUser);
 
 // Login route
-// router.post("/login", loginUser);
+router.post("/login", loginUser);
 
 // // Logout route
 // router.post("/logout", verifyToken, logoutUser);

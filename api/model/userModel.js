@@ -32,15 +32,31 @@ const userSchema = new Schema(
         message: (props) => `${props.value} is not a valid email address!`,
       },
     },
+    mobile: {
+      type: String,
+      required: [true, "Mobile number is required"],
+      unique: true,
+      validate: {
+        validator: function (v) {
+          return /^\d{10}$/.test(v); // Validate mobile number format (10 digits)
+        },
+        message: (props) => `${props.value} is not a valid mobile number!`,
+      },
+    },
     password: {
       type: String,
       required: [true, "Password is required"],
       minlength: [8, "Password must be at least 8 characters long."],
     },
+    centerId: {
+      type: String,
+      required: [true, "Center ID is required"],
+      trim: true,
+    },
     role: {
       type: String,
       required: [true, "Role is required"],
-      enum: ["student", "admin", "company"],
+      enum: ["centerAdmin", "companyUser", "admin", "student"],
       default: "student",
     },
     isActive: {
@@ -86,6 +102,7 @@ userSchema.methods.comparePassword = async function (candidatePassword) {
   try {
     return await bcrypt.compare(candidatePassword, this.password);
   } catch (error) {
+    console.error("Password comparison error:", error);
     throw new CustomError(500, "Error comparing passwords");
   }
 };

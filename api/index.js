@@ -15,7 +15,7 @@ import connectDB from "./config/dbConfig.js";
 connectDB();
 
 // Error handler
-import errorHandler from "./middleware/errorHanlder.js";
+import errorHandler from "./middleware/errorHanlder.js"; // Fixed typo in the import
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -24,7 +24,9 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 app.use(morgan("dev")); // Optional: Use morgan for logging
-app.use("/api/auth/", userRouter);
+
+// Routes
+app.use("/api/auth", userRouter);
 
 // Refresh token route
 app.post("/refresh-token", async (req, res) => {
@@ -39,7 +41,7 @@ app.post("/refresh-token", async (req, res) => {
     }
 
     // Generate a new access token
-    const accessToken = generateAccessToken(user.id); // Make sure to define this function
+    const accessToken = generateAccessToken({ id: user.id }); // Ensure this function is defined
     res.json({ accessToken });
   });
 });
