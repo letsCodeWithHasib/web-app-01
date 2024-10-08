@@ -1,6 +1,7 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, useCallback } from "react";
+import { useSelector } from "react-redux";
 import { ThemeContext } from "../../context/themeContext";
-import { MdDarkMode, MdLightMode } from "react-icons/md";
+
 import Navbar from "./Navbar";
 import { Link } from "react-router-dom";
 
@@ -8,8 +9,17 @@ const Header = () => {
   const { toggleTheme, isDark } = useContext(ThemeContext);
   const [isVisible, setIsVisible] = useState(true); // Track header visibility
   const [lastScrollY, setLastScrollY] = useState(0); // Track last scroll position
+  const { user } = useSelector((state) => state.auth);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  const handleScroll = () => {
+  // user login logic
+  useEffect(() => {
+    if (user?.firstName) {
+      setIsLoggedIn(true);
+    }
+  }, [user]);
+
+  const handleScroll = useCallback(() => {
     const currentScrollY = window.scrollY;
 
     // Show header when scrolling up and hide when scrolling down
@@ -19,7 +29,7 @@ const Header = () => {
       setIsVisible(true); // Scrolling up
     }
     setLastScrollY(currentScrollY);
-  };
+  });
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
@@ -46,23 +56,26 @@ const Header = () => {
       {/* theme change */}
       <div className="flex gap-5 items-center">
         {/* Link to login page */}
-        <Link
-          className={`text-[17px] py-2 px-5 font-[Roboto] font-bold rounded-lg hover:rounded-full ${
-            isDark ? "bg-white text-primary" : "text-white bg-primary"
-          } text-sans`}
-          to="/auth"
-        >
-          Sign in
-        </Link>
+        {isLoggedIn ? (
+          // user profile image
+          <p
+            className={`text-[17px] uppercase py-2 px-5 font-[Roboto] font-bold rounded-lg hover:rounded-full ${
+              isDark ? " text-white" : "text-primary"
+            } text-sans`}
+          >
+            {user.firstName} {user.lastName}
+          </p>
+        ) : (
+          <Link
+            className={`text-[17px] py-2 px-5 font-[Roboto] font-bold rounded-lg hover:rounded-full ${
+              isDark ? "bg-white text-primary" : "text-white bg-primary"
+            } text-sans`}
+            to="/auth"
+          >
+            Sign in
+          </Link>
+        )}
         {/* button for theme */}
-        <button
-          className={`text-2xl ${
-            isDark ? "shadow-[#ffffff]" : "shadow-[#000000]"
-          } flex items-center justify-center shadow-xl p-1 rounded-full bg-transparent hover:shadow-none`}
-          onClick={toggleTheme}
-        >
-          {isDark ? <MdLightMode /> : <MdDarkMode />}
-        </button>
       </div>
     </div>
   );
