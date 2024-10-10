@@ -12,7 +12,7 @@ const Auth = () => {
     if (role === "student") {
       navigate("/student");
     } else if (role === "centerAdmin") {
-      navigate("/center-admin");
+      navigate("/centre-admin");
     } else if (role === "company") {
       navigate("/company");
     }
@@ -21,7 +21,7 @@ const Auth = () => {
   return (
     <div>
       <div className="mt-5 flex  justify-center items-center p-5 gap-5 mx-auto">
-        <div className="flex justify-center items-center rounded-lg ">
+        <div className="flex justify-center items-center rounded-lg">
           {/* <img className="w-[500px]" src={authImage} alt="" /> */}
         </div>
         <Outlet />

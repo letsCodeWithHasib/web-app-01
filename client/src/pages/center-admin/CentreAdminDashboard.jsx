@@ -5,7 +5,7 @@ import TestManagement from "../../components/center-admin/TestManagment";
 import Reporting from "../../components/center-admin/Reporting";
 import api from "../../api/api";
 
-const CenterAdminDashboard = () => {
+const CentreAdminDashboard = () => {
   const [users, setUsers] = useState([
     { id: 1, name: "John Doe", email: "john@example.com", active: true },
     { id: 2, name: "Jane Smith", email: "jane@example.com", active: false },
@@ -88,4 +88,4 @@ const CenterAdminDashboard = () => {
   );
 };
 
-export default CenterAdminDashboard;
+export default CentreAdminDashboard;

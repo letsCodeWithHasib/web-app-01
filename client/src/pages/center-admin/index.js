@@ -1,4 +1,4 @@
-import Admin from "./CenterAdminDashboard";
-import TestCreation from "./Test";
+import CentreAdminDashboard from "./CentreAdminDashboard";
+import CentreAdminCreateTest from "./CentreAdminCreateTest";
 
-export { Admin, TestCreation };
+export { CentreAdminDashboard, CentreAdminCreateTest };

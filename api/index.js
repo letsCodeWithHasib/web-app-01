@@ -9,6 +9,8 @@ dotenv.config();
 
 // Import routes
 import userRouter from "./route/userRoute.js";
+import centreAdminRouter from "./route/centerAdminRoute.js";
+import testRouter from "./route/testRoute.js";
 
 // Database connection
 import connectDB from "./config/dbConfig.js";
@@ -27,6 +29,8 @@ app.use(morgan("dev")); // Optional: Use morgan for logging
 
 // Routes
 app.use("/api/auth", userRouter);
+app.use("/api/centre-admin", centreAdminRouter);
+app.use("/api/test", testRouter);
 
 // Refresh token route
 app.post("/refresh-token", async (req, res) => {
@@ -49,7 +53,7 @@ app.post("/refresh-token", async (req, res) => {
 // 404 handler
 app.use((req, res) => {
   console.log(`404 - ${req.url}`);
-  res.status(404).json({ message: "404 Not Found" });
+  res.status(404).json({ message: "404 Not Found thik" });
 });
 
 // Error handling middleware

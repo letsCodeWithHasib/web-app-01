@@ -11,8 +11,11 @@ import { Student } from "./pages/student";
 //import company route's pages
 import { Company } from "./pages/company";
 
-// testing
-import CenterAdminDashboard from "./pages/center-admin/CenterAdminDashboard";
+// centre admin route's pages
+import {
+  CentreAdminDashboard,
+  CentreAdminCreateTest,
+} from "./pages/center-admin";
 
 // Layouts
 import {
@@ -84,8 +87,9 @@ const App = () => {
           </Route>
 
           {/* center based admin route */}
-          <Route path="/center-admin" element={<CenterAdminRoute />}>
-            <Route index element={<CenterAdminDashboard />} />
+          <Route path="/centre-admin" element={<CenterAdminRoute />}>
+            <Route index element={<CentreAdminDashboard />} />
+            <Route path="test" element={<CentreAdminCreateTest />} />
           </Route>
 
           <Route path="/student" element={<Student />} />

@@ -5,7 +5,6 @@ import {
   // logoutUser,
   // getUserProfile,
 } from "../controller/userController.js";
-import verifyToken from "../middleware/auth.js"; // Assuming you have this middleware
 
 const router = Router();
 

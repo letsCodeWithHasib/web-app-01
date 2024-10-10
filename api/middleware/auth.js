@@ -11,6 +11,7 @@ const verifyToken = (req, res, next) => {
 
   jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
     if (err) {
+      console.log(err);
       return next(new CustomError(403, "Invalid access token"));
     }
 
