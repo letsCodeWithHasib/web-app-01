@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_BASE_PATH = "https://web-app-01.vercel.app";
+const API_BASE_PATH = "https://web-app-01.vercel.app/api";
 
 // Create an axios instance
 const api = axios.create({
