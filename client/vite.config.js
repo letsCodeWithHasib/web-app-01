@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "http://localhost:3000", // your Node.js server URL
+        target: "https://web-app-01.vercel.app/", // your Node.js server URL
         changeOrigin: true,
         secure: false,
       },
