@@ -23,12 +23,7 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Middlewares
-app.use(
-  cors({
-    origin: "https://web-app-01-client.vercel.app/", // Adjust to your frontend URL
-    methods: ["POST", "GET", "PUT", "DELETE"],
-  })
-);
+app.use(cors());
 app.use(express.json());
 app.use(morgan("dev")); // Optional: Use morgan for logging
 
