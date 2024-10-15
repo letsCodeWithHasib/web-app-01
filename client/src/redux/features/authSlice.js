@@ -30,7 +30,7 @@ export const loginUser = createAsyncThunk(
       localStorage.setItem("refreshToken", refreshToken); // Store the refresh token
       return { user, accessToken, refreshToken };
     } catch (error) {
-      console.log(error);
+      console.log(error, "Er");
       return rejectWithValue(error.response.data);
     }
   }
