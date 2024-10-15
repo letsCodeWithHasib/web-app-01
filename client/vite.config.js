@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "https://web-app-01.vercel.app/", // your Node.js server URL
+        target: "https://web-app-01.vercel.app", // your Node.js server URL"https://web-app-01.vercel.app/"
         changeOrigin: true,
         secure: false,
       },
