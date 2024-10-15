@@ -58,7 +58,7 @@ app.post("/refresh-token", async (req, res) => {
 // 404 handler
 app.use((req, res) => {
   console.log(`404 - ${req.url}`);
-  res.status(404).json({ message: "404 Not Found thik" });
+  res.status(404).json({ message: "404 Not Found thik hai" });
 });
 
 // Error handling middleware
